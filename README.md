@@ -42,7 +42,7 @@ How to use
 
 <code>make package/seafile-server/{clean,compile} V=s</code>
 
-* Once done, you'll find the packages generated in "./bin/[platform]/packages/seafile". These are ready to be installed.
+* Once done, you'll find the packages generated in "./bin/[platform]/packages/seafile" ready to be installed on your router.
 
 Known bugs
 ----------
