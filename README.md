@@ -7,7 +7,7 @@ This is a work-in-progress porting attempt of <a href="http://seafile.com/">Seaf
 Why was it created?
 -------------------
 
-This project was created to be able to run Seafile on openwrt-based devices (routers primarily). Some routers and other openwrt-compatible consumer devices are now fast enough and have enough memory to host a seafile server to conveniently store your files at a central location, your home. This way you can enjoy the benefits of cloud storage while keeping (physical) control over your data and privacy. Also, having the possibility to run Seafile on your router eliminates the need to run a server machine in your home.
+This project was created to be able to run Seafile on openwrt-based devices (routers primarily). Some routers and other openwrt-compatible consumer devices are now fast enough and have enough memory to host a seafile server to conveniently store your files at a central location, your home. This way you can enjoy the benefits of cloud storage while keeping (physical) control over your data and privacy. Also, having the possibility to run Seafile on your router eliminates the need to run a server machine all the time in your home.
 
 IMPORTANT: You need about 100 MB of non-volatile storage to install the packages built. It's advised to set up an <a href="http://wiki.openwrt.org/doc/howto/extroot">extroot</a> configuration using a USB stick or a portable hard disk to have enough free disk space.
 
