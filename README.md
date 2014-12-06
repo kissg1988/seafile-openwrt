@@ -54,19 +54,13 @@ To install or update the packages, you need to copy the package files to a direc
 
 To make opkg aware of your custom package repository, append the lines below to /etc/opkg.conf on your router (change paths as appropriate):
 
-<code>
-dest ext /mnt/extroot
-
-src/gz seafile file:///mnt/packages/seafile
-</code>
+<code>dest ext /mnt/extroot</code>
+<code>src/gz seafile file:///mnt/packages/seafile</code>
 
 If you want to install the packages to an external location other than the / [root] directory, issue the following commands on your router (set the value of IPKG_INSTROOT to the destination directory):
 
-<code>
-opkg install libfuse shadow-useradd bash libncurses sudo procps-pkill
-
-IPKG_INSTROOT=/mnt/extroot opkg -d ext install seafile-server
-</code>
+<code>opkg install libfuse shadow-useradd bash libncurses sudo procps-pkill</code>
+<code>IPKG_INSTROOT=/mnt/extroot opkg -d ext install seafile-server</code>
 
 Known bugs
 ----------
