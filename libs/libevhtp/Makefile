@@ -1,8 +1,16 @@
+#
+# Copyright (C) 2007-2014 OpenWrt.org
+#
+# This is free software, licensed under the GNU General Public License v2.
+# See /LICENSE for more information.
+#
+
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=libevhtp
 PKG_VERSION:=1.2.9
 PKG_RELEASE:=1
+PKG_LICENSE:=BSD-3-Clause
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE:=$(PKG_VERSION).tar.gz
