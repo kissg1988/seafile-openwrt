@@ -49,5 +49,5 @@ Known bugs
 
 * the jansson package needs to be patched (included) as the current version does not install the .pc file (pkg-config) by default required by the build process
 * the fileserver component cannot accept file uploads, CORS is not working as expected (400 Bad request returned instead of 200 OK, needs debugging)
-* compiling with <a href="http://wiki.openwrt.org/doc/devel/gdb">debug capabilities</a> fail for packages depending on libpthread for some reason
+* compiling with <a href="http://wiki.openwrt.org/doc/devel/gdb">debug capabilities</a> fails for packages depending on libpthread for an unknown reason
 * building the packages with "make -j" sometimes fails, rebuilding without the "-j" switch solves the problem
