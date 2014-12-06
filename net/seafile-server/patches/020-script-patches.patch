@@ -1,0 +1,275 @@
+diff -rupN seafile-3.1.7-server.orig/scripts/reset-admin.sh seafile-3.1.7-server/scripts/reset-admin.sh
+--- seafile-3.1.7-server.orig/scripts/reset-admin.sh	2014-10-16 05:30:04.000000000 +0200
++++ seafile-3.1.7-server/scripts/reset-admin.sh	2014-11-28 21:54:54.998181218 +0100
+@@ -5,29 +5,6 @@ INSTALLPATH=$(dirname "${SCRIPT}")
+ TOPDIR=$(dirname "${INSTALLPATH}")
+ default_ccnet_conf_dir=${TOPDIR}/ccnet
+ 
+-function check_python_executable() {
+-    if [[ "$PYTHON" != "" && -x $PYTHON ]]; then
+-        return 0
+-    fi
+-
+-    if which python2.7 2>/dev/null 1>&2; then
+-        PYTHON=python2.7
+-    elif which python27 2>/dev/null 1>&2; then
+-        PYTHON=python27
+-    elif which python2.6 2>/dev/null 1>&2; then
+-        PYTHON=python2.6
+-    elif which python26 2>/dev/null 1>&2; then
+-        PYTHON=python26
+-    else
+-        echo
+-        echo "Can't find a python executable of version 2.6 or above in PATH"
+-        echo "Install python 2.6+ before continue."
+-        echo "Or if you installed it in a non-standard PATH, set the PYTHON enviroment varirable to it"
+-        echo
+-        exit 1
+-    fi
+-}
+-
+ function read_seafile_data_dir () {
+     seafile_ini=${default_ccnet_conf_dir}/seafile.ini
+     if [[ ! -f ${seafile_ini} ]]; then
+@@ -43,13 +20,14 @@ function read_seafile_data_dir () {
+     fi
+ }
+ 
+-check_python_executable;
+ read_seafile_data_dir;
+ 
+ export CCNET_CONF_DIR=${default_ccnet_conf_dir}
+ export SEAFILE_CONF_DIR=${seafile_data_dir}
+-export PYTHONPATH=${INSTALLPATH}/seafile/lib/python2.6/site-packages:${INSTALLPATH}/seafile/lib64/python2.6/site-packages:${INSTALLPATH}/seahub/thirdpart:$PYTHONPATH
+-export PYTHONPATH=${INSTALLPATH}/seafile/lib/python2.7/site-packages:${INSTALLPATH}/seafile/lib64/python2.7/site-packages:$PYTHONPATH
++
++export PATH="_IPKG_INSTROOT_/usr/bin:_IPKG_INSTROOT_/usr/sbin:_IPKG_INSTROOT_/bin:_IPKG_INSTROOT_/sbin:$PATH"
++export LD_LIBRARY_PATH="_IPKG_INSTROOT_/usr/lib:_IPKG_INSTROOT_/lib:$LD_LIBRARY_PATH"
++export PYTHONPATH="_IPKG_INSTROOT_/usr/share/seafile/seafile-server/seahub/thirdpart:_IPKG_INSTROOT_/usr/lib/python2.7/site-packages:$PYTHONPATH"
+ 
+ manage_py=${INSTALLPATH}/seahub/manage.py
+-exec "$PYTHON" "$manage_py" createsuperuser
+\ No newline at end of file
++exec python "$manage_py" createsuperuser
+diff -rupN seafile-3.1.7-server.orig/scripts/seaf-fuse.sh seafile-3.1.7-server/scripts/seaf-fuse.sh
+--- seafile-3.1.7-server.orig/scripts/seaf-fuse.sh	2014-10-16 05:30:04.000000000 +0200
++++ seafile-3.1.7-server/scripts/seaf-fuse.sh	2014-11-28 21:55:16.214778887 +0100
+@@ -1,15 +1,14 @@
+ #!/bin/bash
+ 
+-echo ""
+-
+ SCRIPT=$(readlink -f "$0")
+ INSTALLPATH=$(dirname "${SCRIPT}")
+ TOPDIR=$(dirname "${INSTALLPATH}")
+ default_ccnet_conf_dir=${TOPDIR}/ccnet
+-seaf_fuse=${INSTALLPATH}/seafile/bin/seaf-fuse
++seaf_fuse="_IPKG_INSTROOT_/usr/bin/seaf-fuse"
+ 
+-export PATH=${INSTALLPATH}/seafile/bin:$PATH
+-export SEAFILE_LD_LIBRARY_PATH=${INSTALLPATH}/seafile/lib/:${INSTALLPATH}/seafile/lib64:${LD_LIBRARY_PATH}
++export PATH="_IPKG_INSTROOT_/usr/bin:_IPKG_INSTROOT_/usr/sbin:_IPKG_INSTROOT_/bin:_IPKG_INSTROOT_/sbin:$PATH"
++export LD_LIBRARY_PATH="_IPKG_INSTROOT_/usr/lib:_IPKG_INSTROOT_/lib:$LD_LIBRARY_PATH"
++export PYTHONPATH="_IPKG_INSTROOT_/usr/share/seafile/seafile-server/seahub/thirdpart:_IPKG_INSTROOT_/usr/lib/python2.7/site-packages:$PYTHONPATH"
+ 
+ script_name=$0
+ function usage () {
+@@ -86,9 +85,7 @@ function start_seaf_fuse () {
+ 
+     logfile=${TOPDIR}/logs/seaf-fuse.log
+ 
+-    LD_LIBRARY_PATH=$SEAFILE_LD_LIBRARY_PATH ${seaf_fuse} \
+-        -c "${default_ccnet_conf_dir}" -d "${seafile_data_dir}" -l "${logfile}" \
+-        "${mount_point}"
++    ${seaf_fuse} -c "${default_ccnet_conf_dir}" -d "${seafile_data_dir}" -l "${logfile}" "${mount_point}"
+ 
+     sleep 2
+ 
+diff -rupN seafile-3.1.7-server.orig/scripts/seaf-gc.sh seafile-3.1.7-server/scripts/seaf-gc.sh
+--- seafile-3.1.7-server.orig/scripts/seaf-gc.sh	2014-10-16 05:30:04.000000000 +0200
++++ seafile-3.1.7-server/scripts/seaf-gc.sh	2014-11-28 21:55:24.613015463 +0100
+@@ -1,16 +1,15 @@
+ #!/bin/bash
+ 
+-echo ""
+-
+ SCRIPT=$(readlink -f "$0")
+ INSTALLPATH=$(dirname "${SCRIPT}")
+ TOPDIR=$(dirname "${INSTALLPATH}")
+ default_ccnet_conf_dir=${TOPDIR}/ccnet
+-seaf_gc=${INSTALLPATH}/seafile/bin/seafserv-gc
++seaf_gc="_IPKG_INSTROOT_/usr/bin/seafserv-gc"
+ seaf_gc_opts=""
+ 
+-export PATH=${INSTALLPATH}/seafile/bin:$PATH
+-export SEAFILE_LD_LIBRARY_PATH=${INSTALLPATH}/seafile/lib/:${INSTALLPATH}/seafile/lib64:${LD_LIBRARY_PATH}
++export PATH="_IPKG_INSTROOT_/usr/bin:_IPKG_INSTROOT_/usr/sbin:_IPKG_INSTROOT_/bin:_IPKG_INSTROOT_/sbin:$PATH"
++export LD_LIBRARY_PATH="_IPKG_INSTROOT_/usr/lib:_IPKG_INSTROOT_/lib:$LD_LIBRARY_PATH"
++export PYTHONPATH="_IPKG_INSTROOT_/usr/share/seafile/seafile-server/seahub/thirdpart:_IPKG_INSTROOT_/usr/lib/python2.7/site-packages:$PYTHONPATH"
+ 
+ script_name=$0
+ function usage () {
+@@ -78,9 +77,7 @@ function run_seaf_gc () {
+ 
+     echo "Starting seafserv-gc, please wait ..."
+ 
+-    LD_LIBRARY_PATH=$SEAFILE_LD_LIBRARY_PATH ${seaf_gc} \
+-        -c "${default_ccnet_conf_dir}" -d "${seafile_data_dir}" \
+-        ${seaf_gc_opts}
++    ${seaf_gc} -c "${default_ccnet_conf_dir}" -d "${seafile_data_dir}" ${seaf_gc_opts}
+ 
+     echo "seafserv-gc run done"
+     echo
+diff -rupN seafile-3.1.7-server.orig/scripts/seafile.sh seafile-3.1.7-server/scripts/seafile.sh
+--- seafile-3.1.7-server.orig/scripts/seafile.sh	2014-10-16 05:30:04.000000000 +0200
++++ seafile-3.1.7-server/scripts/seafile.sh	2014-11-28 21:55:50.217736741 +0100
+@@ -10,19 +10,17 @@
+ # Description:       starts Seafile Server
+ ### END INIT INFO
+ 
+-echo ""
++export PATH="_IPKG_INSTROOT_/usr/bin:_IPKG_INSTROOT_/usr/sbin:_IPKG_INSTROOT_/bin:_IPKG_INSTROOT_/sbin:$PATH"
++export LD_LIBRARY_PATH="_IPKG_INSTROOT_/usr/lib:_IPKG_INSTROOT_/lib:$LD_LIBRARY_PATH"
++export PYTHONPATH="_IPKG_INSTROOT_/usr/share/seafile/seafile-server/seahub/thirdpart:_IPKG_INSTROOT_/usr/lib/python2.7/site-packages:$PYTHONPATH"
+ 
+ SCRIPT=$(readlink -f "$0")
+ INSTALLPATH=$(dirname "${SCRIPT}")
+ TOPDIR=$(dirname "${INSTALLPATH}")
+ default_ccnet_conf_dir=${TOPDIR}/ccnet
+-ccnet_pidfile=${INSTALLPATH}/runtime/ccnet.pid
+-seaf_controller="${INSTALLPATH}/seafile/bin/seafile-controller"
+-
+-
+-export PATH=${INSTALLPATH}/seafile/bin:$PATH
+-export ORIG_LD_LIBRARY_PATH=${LD_LIBRARY_PATH}
+-export SEAFILE_LD_LIBRARY_PATH=${INSTALLPATH}/seafile/lib/:${INSTALLPATH}/seafile/lib64:${LD_LIBRARY_PATH}
++ccnet_pidfile=/var/run/seafile/ccnet.pid
++controller_pidfile=/var/run/seafile/seafile-controller.pid
++seaf_controller="_IPKG_INSTROOT_/usr/bin/seafile-controller"
+ 
+ script_name=$0
+ function usage () {
+@@ -62,7 +60,7 @@ function read_seafile_data_dir () {
+ }
+ 
+ function test_config() {
+-    if ! LD_LIBRARY_PATH=$SEAFILE_LD_LIBRARY_PATH ${seaf_controller} --test -c "${default_ccnet_conf_dir}" -d "${seafile_data_dir}"; then
++    if ! ${seaf_controller} --test -c "${default_ccnet_conf_dir}" -d "${seafile_data_dir}"; then
+         exit 1;
+     fi
+ }
+@@ -102,7 +100,7 @@ function start_seafile_server () {
+ 
+     echo "Starting seafile server, please wait ..."
+ 
+-    LD_LIBRARY_PATH=$SEAFILE_LD_LIBRARY_PATH ${seaf_controller} -c "${default_ccnet_conf_dir}" -d "${seafile_data_dir}"
++    ${seaf_controller} -c "${default_ccnet_conf_dir}" -d "${seafile_data_dir}" -P "${controller_pidfile}"
+ 
+     sleep 3
+ 
+diff -rupN seafile-3.1.7-server.orig/scripts/seahub.sh seafile-3.1.7-server/scripts/seahub.sh
+--- seafile-3.1.7-server.orig/scripts/seahub.sh	2014-10-16 05:30:04.000000000 +0200
++++ seafile-3.1.7-server/scripts/seahub.sh	2014-11-28 21:55:59.061985881 +0100
+@@ -10,7 +10,9 @@
+ # Description:       starts Seahub
+ ### END INIT INFO
+ 
+-echo ""
++export PATH="_IPKG_INSTROOT_/usr/bin:_IPKG_INSTROOT_/usr/sbin:_IPKG_INSTROOT_/bin:_IPKG_INSTROOT_/sbin:$PATH"
++export LD_LIBRARY_PATH="_IPKG_INSTROOT_/usr/lib:_IPKG_INSTROOT_/lib:$LD_LIBRARY_PATH"
++export PYTHONPATH="_IPKG_INSTROOT_/usr/share/seafile/seafile-server/seahub/thirdpart:_IPKG_INSTROOT_/usr/lib/python2.7/site-packages:$PYTHONPATH"
+ 
+ SCRIPT=$(readlink -f "$0")
+ INSTALLPATH=$(dirname "${SCRIPT}")
+@@ -19,11 +21,10 @@ default_ccnet_conf_dir=${TOPDIR}/ccnet
+ 
+ manage_py=${INSTALLPATH}/seahub/manage.py
+ gunicorn_conf=${INSTALLPATH}/runtime/seahub.conf
+-pidfile=${INSTALLPATH}/runtime/seahub.pid
++pidfile=/var/run/seafile/seahub.pid
+ errorlog=${INSTALLPATH}/runtime/error.log
+ accesslog=${INSTALLPATH}/runtime/access.log
+ 
+-
+ script_name=$0
+ function usage () {
+     echo "Usage: "
+@@ -45,29 +46,6 @@ if [[ $1 != "start" && $1 != "stop" && $
+     exit 1;
+ fi
+ 
+-function check_python_executable() {
+-    if [[ "$PYTHON" != "" && -x $PYTHON ]]; then
+-        return 0
+-    fi
+-
+-    if which python2.7 2>/dev/null 1>&2; then
+-        PYTHON=python2.7
+-    elif which python27 2>/dev/null 1>&2; then
+-        PYTHON=python27
+-    elif which python2.6 2>/dev/null 1>&2; then
+-        PYTHON=python2.6
+-    elif which python26 2>/dev/null 1>&2; then
+-        PYTHON=python26
+-    else
+-        echo
+-        echo "Can't find a python executable of version 2.6 or above in PATH"
+-        echo "Install python 2.6+ before continue."
+-        echo "Or if you installed it in a non-standard PATH, set the PYTHON enviroment varirable to it"
+-        echo
+-        exit 1
+-    fi
+-}
+-
+ function validate_ccnet_conf_dir () {
+     if [[ ! -d ${default_ccnet_conf_dir} ]]; then
+         echo "Error: there is no ccnet config directory."
+@@ -143,7 +121,6 @@ function prepare_seahub_log_dir() {
+ }
+ 
+ function before_start() {
+-    check_python_executable;
+     validate_ccnet_conf_dir;
+     read_seafile_data_dir;
+ 
+@@ -153,15 +130,12 @@ function before_start() {
+ 
+     export CCNET_CONF_DIR=${default_ccnet_conf_dir}
+     export SEAFILE_CONF_DIR=${seafile_data_dir}
+-    export PYTHONPATH=${INSTALLPATH}/seafile/lib/python2.6/site-packages:${INSTALLPATH}/seafile/lib64/python2.6/site-packages:${INSTALLPATH}/seahub/thirdpart:$PYTHONPATH
+-    export PYTHONPATH=${INSTALLPATH}/seafile/lib/python2.7/site-packages:${INSTALLPATH}/seafile/lib64/python2.7/site-packages:$PYTHONPATH
+ }
+ 
+ function start_seahub () {
+     before_start;
+     echo "Starting seahub at port ${port} ..."
+-    check_init_admin;
+-    $PYTHON "${manage_py}" run_gunicorn -c "${gunicorn_conf}" -b "0.0.0.0:${port}" --preload
++    python "${manage_py}" run_gunicorn -c "${gunicorn_conf}" -b "0.0.0.0:${port}" --preload
+ 
+     # Ensure seahub is started successfully
+     sleep 5
+@@ -183,8 +157,7 @@ function start_seahub_fastcgi () {
+     address=`(test -z "$SEAFILE_FASTCGI_HOST" && echo "127.0.0.1") || echo $SEAFILE_FASTCGI_HOST`
+ 
+     echo "Starting seahub (fastcgi) at ${address}:${port} ..."
+-    check_init_admin;
+-    $PYTHON "${manage_py}" runfcgi host=$address port=$port pidfile=$pidfile \
++    python "${manage_py}" runfcgi host=$address port=$port pidfile=$pidfile \
+         outlog=${accesslog} errlog=${errorlog}
+ 
+     # Ensure seahub is started successfully
+@@ -210,13 +183,6 @@ function stop_seahub () {
+     fi
+ }
+ 
+-function check_init_admin() {
+-    check_init_admin_script=${INSTALLPATH}/check_init_admin.py
+-    if ! $PYTHON $check_init_admin_script; then
+-        exit 1
+-    fi
+-}
+-
+ case $1 in
+     "start" )
+         start_seahub;

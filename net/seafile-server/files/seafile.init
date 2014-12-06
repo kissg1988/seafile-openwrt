@@ -1,0 +1,40 @@
+#!/bin/sh /etc/rc.common
+
+START=99
+APP=seafile
+EXTRA_HELP="	setup	Runs the setup script
+	create_admin	Creates the administrative login
+	reset_admin	Alias to create_admin"
+EXTRA_COMMANDS="setup create_admin reset_admin"
+
+export PATH="_IPKG_INSTROOT_/usr/share/seafile/seafile-server/seahub/thirdpart:_IPKG_INSTROOT_/usr/bin:_IPKG_INSTROOT_/usr/sbin:_IPKG_INSTROOT_/bin:_IPKG_INSTROOT_/sbin:$PATH"
+export LD_LIBRARY_PATH="_IPKG_INSTROOT_/usr/lib:_IPKG_INSTROOT_/lib:$LD_LIBRARY_PATH"
+export PYTHONPATH="_IPKG_INSTROOT_/usr/share/seafile/seafile-server/seahub/thirdpart:_IPKG_INSTROOT_/usr/lib/python2.7/site-packages:$PYTHONPATH"
+
+start() {
+	cd "_IPKG_INSTROOT_/usr/share/seafile" && \
+	    sudo LD_LIBRARY_PATH="$LD_LIBRARY_PATH" PYTHONPATH="$PYTHONPATH" -u seafile -E \
+	    "_IPKG_INSTROOT_/usr/bin/seafile-admin" start
+}
+
+stop() {
+	cd "_IPKG_INSTROOT_/usr/share/seafile" && \
+	    sudo LD_LIBRARY_PATH="$LD_LIBRARY_PATH" PYTHONPATH="$PYTHONPATH" -u seafile -E \
+	    "_IPKG_INSTROOT_/usr/bin/seafile-admin" stop
+}
+
+setup() {
+	cd "_IPKG_INSTROOT_/usr/share/seafile" && \
+	    sudo LD_LIBRARY_PATH="$LD_LIBRARY_PATH" PYTHONPATH="$PYTHONPATH" -u seafile -E \
+	    "_IPKG_INSTROOT_/usr/bin/seafile-admin" setup
+}
+
+create_admin() {
+	cd "_IPKG_INSTROOT_/usr/share/seafile" && \
+	    sudo LD_LIBRARY_PATH="$LD_LIBRARY_PATH" PYTHONPATH="$PYTHONPATH" -u seafile -E \
+	    "_IPKG_INSTROOT_/usr/bin/seafile-admin" create-admin
+}
+
+reset_admin() {
+	create_admin
+}
