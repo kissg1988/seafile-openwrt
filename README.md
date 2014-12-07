@@ -37,20 +37,22 @@ How to use
 
 <code>make defconfig && make</code>
 
-* Install the packages to the menuconfig interface and mark them to be compiled as modules:
+* Install the packages to the menuconfig interface:
 
-<code>./scripts/feeds install -a -p seafile -d m</code>
+<code>./scripts/feeds install -a -p seafile</code>
 
-* Start compiling the packages:
+* Run <code>make menuconfig</code> and select the package <code>Networking -> seafile-server</code> to compile as a module ('M' marker). This will also make all the required dependencies to be packaged. Exit and save the configuration.
 
-<code>make package/seafile-server/{clean,compile} V=s</code>
+* Finally, start compiling the packages:
 
-* Once done, you'll find the packages generated in './bin/<platform>/packages/seafile' ready to be installed on your router.
+<code>make package/seafile-server/{clean,compile}</code>
+
+* Once done, you'll find the packages in './bin/<platform>/packages/seafile' ready to be installed on your router.
 
 Installation
 ------------
 
-To install or update the packages, you need to copy the package files to a directory accessible by your router along with a package index file. To do so, copy the script 'deploy-to-router.sh' to the directory holding the generated packages, set your router's IP address and the path to copy the files to and run the script.
+To install or update the packages, you need to copy the package files to a directory accessible by your router along with a package index file. To do so, copy the script 'deploy-to-router.sh' to the directory holding the generated packages and set your router's IP address along with the local path on the router that should hold the repository's files (scp parameters). Once done, run the script to have the files copied to the router.
 
 To make opkg aware of your custom package repository, append the lines below to /etc/opkg.conf on your router (change paths as appropriate):
 
