@@ -9,6 +9,11 @@ Why was it created?
 
 This project was created to be able to run Seafile on OpenWRT-based devices (routers primarily). Some routers and other OpenWRT-compatible consumer devices are now fast enough and have enough memory to host a Seafile server. This makes it possible to conveniently store your personal files at a central location, just like in the cloud, but hosted in your own home. This makes it possible to enjoy the benefits of cloud storage while keeping (physical) control over your data and retain your privacy. Also, having the possibility to run Seafile on your router eliminates the need to run a server machine in your home.
 
+What's the status of the port?
+------------------------------
+
+As noted above, this is still a work-in-progress, however the server component of Seafile works perfectly in its current status, already. Unfortunately, there's an issue with the fileserver component which need to be fixed (see the "Known issues" section below) before the packages would be ready to be pulled into OpenWRT's package repository.
+
 Requirements
 ------------
 
@@ -69,6 +74,6 @@ If you want to install the packages to an external location other than the / [ro
 Known issues
 ------------
 
-* The fileserver daemon cannot accept file uploads, CORS is not working as expected (400 Bad request returned instead of 200 OK), this needs debugging
-* Building the packages with "make -j" sometimes fails - restarting the build or removing the "-j" switch solves the problem
-* Seahub is pretty slow - some additional optimization possible, maybe?
+* The fileserver daemon does not accept file uploads from Seahub because CORS is not working as expected (400 Bad request returned instead of 200 OK)
+* Building the packages with "make -j" sometimes fails - restarting the build or removing the "-j" switch solves the problem (this is more like a phenomenon than an actual problem)
+* Seahub is pretty slow - some additional optimization needed
