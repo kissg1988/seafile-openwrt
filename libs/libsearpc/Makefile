@@ -38,6 +38,8 @@ define Package/libsearpc/description
 endef
 
 CONFIGURE_ARGS += --enable-compile-demo=no
+CONFIGURE_VARS += JANSSON_CFLAGS= \
+		    JANSSON_LIBS=-ljansson
 
 include $(INCLUDE_DIR)/host-build.mk
 

@@ -38,7 +38,6 @@ define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/include
 	$(INSTALL_DIR) $(1)/usr/lib/pkgconfig
 	$(CP) $(PKG_INSTALL_DIR)/usr/include/archive* $(1)/usr/include/
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libarchive.a $(1)/usr/lib/
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libarchive.so* $(1)/usr/lib/
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/pkgconfig/libarchive.pc $(1)/usr/lib/pkgconfig/
 endef

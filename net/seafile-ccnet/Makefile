@@ -28,9 +28,9 @@ define Package/seafile-ccnet
     TITLE:=Seafile server - ccnet component
     MAINTAINER:=Gergely Kiss <mail.gery@gmail.com>
     URL:=http://seafile.com/
-    DEPENDS:=+shadow-useradd +libsearpc +libevent2 +libopenssl \
+    DEPENDS:=+libsearpc +libevent2 +libopenssl \
 		+glib2 +python +libzdb +libuuid \
-		+libpthread +libsqlite3 +jansson +bash
+		+libpthread +libsqlite3 +jansson
 endef
 
 define Package/seafile-ccnet/description
@@ -49,6 +49,8 @@ CONFIGURE_ARGS += --disable-client \
 
 PKG_BUILD_DEPENDS:=vala/host \
 		   libsearpc/host
+
+TARGET_LDFLAGS += -ljansson -L$(STAGING_DIR)/usr/lib/mysql -lmysqlclient -lz
 
 Hooks/Prepare/Post += delete_source_package
 

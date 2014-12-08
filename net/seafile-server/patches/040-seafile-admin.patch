@@ -1,6 +1,6 @@
 diff -rupN seafile-3.1.7-server.orig/tools/seafile-admin seafile-3.1.7-server/tools/seafile-admin
 --- seafile-3.1.7-server.orig/tools/seafile-admin	2014-10-16 05:30:04.000000000 +0200
-+++ seafile-3.1.7-server/tools/seafile-admin	2014-12-01 21:54:53.369158231 +0100
++++ seafile-3.1.7-server/tools/seafile-admin	2014-12-07 22:56:49.136649624 +0100
 @@ -420,7 +420,7 @@ workers = 3
  
  # Logging
@@ -10,7 +10,15 @@ diff -rupN seafile-3.1.7-server.orig/tools/seafile-admin seafile-3.1.7-server/to
  errorlog = os.path.join(runtime_dir, 'error.log')
  accesslog = os.path.join(runtime_dir, 'access.log')
  '''
-@@ -738,10 +738,9 @@ def setup_seafile(args):
+@@ -607,6 +607,7 @@ def start_seahub_gunicorn():
+         'gunicorn_django',
+         '-c', conf[CONF_SEAHUB_CONF],
+         '-b', '0.0.0.0:%s' % conf[CONF_SEAHUB_PORT],
++        '-t', '60',
+     ]
+ 
+     info('Starting seahub...')
+@@ -738,10 +739,9 @@ def setup_seafile(args):
      print '-----------------------------------------------------------------'
      print '-----------------------------------------------------------------'
      print
@@ -23,7 +31,7 @@ diff -rupN seafile-3.1.7-server.orig/tools/seafile-admin seafile-3.1.7-server/to
      print
      print 'If you have any problem, refer to\n'
      print
-@@ -802,8 +801,7 @@ def start_seafile(args):
+@@ -802,8 +802,7 @@ def start_seafile(args):
  def stop_seafile(dummy):
      info('Stopping seafile server')
      pkill('seafile-controller')

@@ -28,10 +28,9 @@ define Package/seafile-server
     TITLE:=Seafile server
     MAINTAINER:=Gergely Kiss <mail.gery@gmail.com>
     URL:=http://seafile.com/
-    DEPENDS:=+shadow-useradd +libfuse +libarchive +libopenssl +glib2 +seafile-ccnet +libsearpc \
+    DEPENDS:=+shadow-useradd +libarchive +libopenssl +glib2 +seafile-ccnet +libsearpc \
 		+jansson +libevent2 +libevent2-openssl +zlib +libzdb +libsqlite3 \
-		+libpthread +libuuid +libiconv-full +seafile-seahub +libevhtp \
-		+bash +sudo +procps +procps-pkill
+		+libpthread +libuuid +seafile-seahub +bash +sudo +procps +procps-pkill +libevhtp
 endef
 
 define Package/seafile-server/description
@@ -40,31 +39,28 @@ endef
 
 CONFIGURE_ARGS += --disable-riak \
 		    --disable-client \
+		    --disable-fuse \
 		    --enable-server \
 		    --enable-python \
 		    --disable-static-build \
 		    --disable-server-pkg \
 		    --disable-console
 
-TARGET_CFLAGS += -I$(STAGING_DIR)/usr/include/fuse \
-		    -I$(STAGING_DIR)/usr/lib/libiconv-full/include
-TARGET_LDFLAGS += -L$(STAGING_DIR)/usr/lib/libiconv-full/lib
+CONFIGURE_VARS += JANSSON_CFLAGS= \
+		    JANSSON_LIBS=-ljansson
+
+TARGET_CFLAGS += -I$(STAGING_DIR)/usr/lib/libiconv-stub/include
+TARGET_LDFLAGS += -L$(STAGING_DIR)/usr/lib/libiconv-stub/lib -L$(STAGING_DIR)/usr/lib/mysql -lmysqlclient -lz
 
 PKG_BUILD_DEPENDS:=vala/host \
-		    libsearpc/host
+		    libsearpc/host \
+		    libiconv
 
 Hooks/Prepare/Post += delete_source_package
-Hooks/Configure/Pre += check_host_includes
 
 define delete_source_package
 	# deleting downloaded source package as its filename is ambiguous
 	rm -f $(DL_DIR)/$(PKG_SOURCE)
-endef
-
-define check_host_includes
-	if [ ! -e "/usr/include/gnu/stubs-32.h" ]; then \
-	echo "*** ERROR: $(PKG_NAME) requires the 32-bit include files for libc to be installed on the host system. \
-	    Please install the 32-bit version of the libc development package (eg. libc6-dev-i386 or glibc-devel.i686)."; exit 1; fi
 endef
 
 define Package/seafile-server/install
@@ -76,9 +72,7 @@ define Package/seafile-server/install
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/python2.7/site-packages/seafile/ $(1)/usr/lib/python2.7/site-packages/
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/python2.7/site-packages/seaserv/ $(1)/usr/lib/python2.7/site-packages/
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libseafile.so* $(1)/usr/lib/
-	$(CP) $(PKG_BUILD_DIR)/scripts/check_init_admin.py $(1)/usr/share/seafile/seafile-server/
 	$(CP) $(PKG_BUILD_DIR)/scripts/reset-admin.sh $(1)/usr/share/seafile/seafile-server/
-	$(CP) $(PKG_BUILD_DIR)/scripts/seaf-fuse.sh $(1)/usr/share/seafile/seafile-server/
 	$(CP) $(PKG_BUILD_DIR)/scripts/seaf-gc.sh $(1)/usr/share/seafile/seafile-server/
 	$(CP) $(PKG_BUILD_DIR)/scripts/upgrade/ $(1)/usr/share/seafile/seafile-server/
 	$(INSTALL_BIN) ./files/seafile.init $(1)/etc/init.d/seafile
@@ -89,7 +83,6 @@ define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/lib/pkgconfig
 	$(CP) $(PKG_INSTALL_DIR)/usr/include/seafile/ $(1)/usr/include/
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/pkgconfig/libseafile.pc $(1)/usr/lib/pkgconfig/
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libseafile.a $(1)/usr/lib/
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libseafile.so* $(1)/usr/lib/
 endef
 
@@ -113,7 +106,6 @@ if [ ! -e /etc/init.d/seafile ]; then
 sed -i "s#_IPKG_INSTROOT_#$$IPKG_INSTROOT#g" /etc/init.d/seafile
 sed -i "s#_IPKG_INSTROOT_#$$IPKG_INSTROOT#g" $$IPKG_INSTROOT/usr/share/seafile/seafile-server/reset-admin.sh
 sed -i "s#_IPKG_INSTROOT_#$$IPKG_INSTROOT#g" $$IPKG_INSTROOT/usr/share/seafile/seafile-server/seaf-gc.sh
-sed -i "s#_IPKG_INSTROOT_#$$IPKG_INSTROOT#g" $$IPKG_INSTROOT/usr/share/seafile/seafile-server/seaf-fuse.sh
 
 if [ ! -d "$$IPKG_INSTROOT/usr/share/seafile/seafile-data" ]
 then

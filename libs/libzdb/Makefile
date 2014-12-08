@@ -30,8 +30,7 @@ define Package/libzdb
     TITLE:=A thread-safe multi database connection pool library
     MAINTAINER:=Gergely Kiss <mail.gery@gmail.com>
     URL:=http://www.tildeslash.com/libzdb/
-    DEPENDS:=+libsqlite3 +libpq +libmysqlclient +zlib +libpthread
-
+    DEPENDS:=+libsqlite3 +libpq +libmysqlclient +zlib +libpthread +libopenssl
 endef
 
 define Package/libzdb/description
@@ -47,9 +46,11 @@ CONFIGURE_ARGS += --disable-profiling \
 		    --with-mysql \
 		    --with-postgresql \
 		    --with-sqlite \
-		    --enable-sqliteunlock
+		    --enable-sqliteunlock \
+		    --enable-openssl
 
-TARGET_CPPFLAGS += -std=c99
+TARGET_CPPFLAGS += -std=c99 -I$(STAGING_DIR)/usr/include/mysql
+TARGET_LDFLAGS += -L$(STAGING_DIR)/usr/lib/mysql -lmysqlclient -lz
 
 include $(INCLUDE_DIR)/host-build.mk
 
@@ -71,14 +72,6 @@ endef
 $(eval $(call HostBuild))
 
 define Build/Compile
-	# FIX: adds symlinks to libmysqlclient.so so it can be linked using the correct path
-	# Note to myself: this is pretty dirty - I need to find a cleaner way!
-	if [ ! -e $(STAGING_DIR)/usr/lib/libmysqlclient.so ]; then \
-		$(LN) mysql/libmysqlclient.so.16.0.0 $(STAGING_DIR)/usr/lib/libmysqlclient.so; fi
-	if [ ! -e $(STAGING_DIR)/usr/lib/libmysqlclient.so.16 ]; then \
-		$(LN) mysql/libmysqlclient.so.16.0.0 $(STAGING_DIR)/usr/lib/libmysqlclient.so.16; fi
-	if [ ! -e $(STAGING_DIR)/usr/lib/libmysqlclient.so.16.0.0 ]; then \
-		$(LN) mysql/libmysqlclient.so.16.0.0 $(STAGING_DIR)/usr/lib/libmysqlclient.so.16.0.0; fi
 	$(call Build/Compile/Default)
 endef
 

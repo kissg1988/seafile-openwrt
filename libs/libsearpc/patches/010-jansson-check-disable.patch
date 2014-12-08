@@ -1,0 +1,22 @@
+diff -rupN libsearpc-3.0-latest.orig/configure.ac libsearpc-3.0-latest/configure.ac
+--- libsearpc-3.0-latest.orig/configure.ac	2014-08-14 17:48:58.000000000 +0200
++++ libsearpc-3.0-latest/configure.ac	2014-12-08 01:10:43.969627392 +0100
+@@ -77,9 +77,6 @@ PKG_CHECK_MODULES(GLIB, [gobject-2.0 >=
+ AC_SUBST(GLIB_CFLAGS)
+ AC_SUBST(GLIB_LIBS)
+ 
+-JANSSON_REQUIRED=2.2.1
+-
+-PKG_CHECK_MODULES(JANSSON, [jansson >= $JANSSON_REQUIRED])
+ AC_SUBST(JANSSON_CFLAGS)
+ AC_SUBST(JANSSON_LIBS)
+ 
+diff -rupN libsearpc-3.0-latest.orig/libsearpc.pc.in libsearpc-3.0-latest/libsearpc.pc.in
+--- libsearpc-3.0-latest.orig/libsearpc.pc.in	2014-08-14 17:48:58.000000000 +0200
++++ libsearpc-3.0-latest/libsearpc.pc.in	2014-12-08 01:10:36.130401859 +0100
+@@ -8,4 +8,4 @@ Description: Simple C rpc library
+ Version: @VERSION@
+ Libs: -L${libdir} -lsearpc
+ Cflags: -I${includedir} -I${includedir}/searpc
+-Requires: gobject-2.0 gio-2.0 jansson
++Requires: gobject-2.0 gio-2.0

@@ -27,7 +27,7 @@ define Package/libevhtp
     TITLE:=A more flexible replacement for libevent's httpd API
     MAINTAINER:=Gergely Kiss <mail.gery@gmail.com>
     URL:=https://github.com/ellzey/libevhtp
-    DEPENDS:=+libevent2 +libevent2-openssl +libevent2-pthreads +libpthread
+    DEPENDS:=+libevent2 +libevent2-openssl +libevent2-pthreads +libopenssl +libpthread
 endef
 
 define Package/libevhtp/description
