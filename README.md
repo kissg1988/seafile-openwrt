@@ -41,7 +41,7 @@ How to use
 
 <code>./scripts/feeds install -a -p seafile</code>
 
-* Run <code>make menuconfig</code> and select the package <code>Networking -> seafile-server</code> to compile as a module ('M' marker). This will also make all the required dependencies to be packaged. Exit and save the configuration.
+* Run <code>make menuconfig</code> and select the package <code>Networking -> seafile-server</code> to compile as a package ('M' marker). This will also make all the required dependencies to be packaged. Exit and save the configuration.
 
 * Finally, start compiling the packages:
 
@@ -60,7 +60,7 @@ To make opkg aware of your custom package repository, append the lines below to 
 
 <code>src/gz seafile file:///mnt/packages/seafile</code>
 
-If you want to install the packages to an external location other than the / [root] directory, issue the following commands on your router (set the value of IPKG_INSTROOT to the destination directory):
+If you want to install the packages to an external location other than the / [root] directory, issue the following commands on your router (set the value of IPKG_INSTROOT so that it points to the destination directory):
 
 <code>opkg install libfuse shadow-useradd bash libncurses sudo procps-pkill</code>
 
@@ -70,5 +70,5 @@ Known issues
 ------------
 
 * The fileserver daemon cannot accept file uploads, CORS is not working as expected (400 Bad request returned instead of 200 OK), this needs debugging
-* Building the packages with "make -j" sometimes fails, rebuilding without the "-j" switch solves the problem
+* Building the packages with "make -j" sometimes fails - restarting the build or removing the "-j" switch solves the problem
 * Seahub is pretty slow - some additional optimization possible, maybe?
