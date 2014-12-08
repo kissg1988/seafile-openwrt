@@ -12,7 +12,7 @@ This project was created to be able to run Seafile on OpenWRT-based devices (rou
 What's the status of the port?
 ------------------------------
 
-As noted above, this is still a work-in-progress, however the server component of Seafile works perfectly in its current status, already. Unfortunately, there's an issue with the fileserver component which need to be fixed (see the "Known issues" section below) before the packages would be ready to be pulled into OpenWRT's package repository.
+As noted above, this is still a work-in-progress, however the server component of Seafile works perfectly in its current status, already. Unfortunately, there's an issue with the fileserver component which needs to be fixed (see the "Known issues" section below) before the packages would be ready to be pulled into OpenWRT's package repository.
 
 Requirements
 ------------
