@@ -62,7 +62,7 @@ To make opkg aware of your custom package repository, append the lines below to 
 
 If you want to install the packages to an external location other than the / [root] directory, issue the following commands on your router (set the value of IPKG_INSTROOT so that it points to the destination directory):
 
-<code>opkg install libfuse shadow-useradd bash libncurses sudo procps-pkill</code>
+<code>opkg install shadow-useradd bash libncurses sudo procps-pkill</code>
 
 <code>IPKG_INSTROOT=/mnt/extroot opkg -d ext install seafile-server</code>
 
