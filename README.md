@@ -37,25 +37,33 @@ How to use
 
 <code>make defconfig && make</code>
 
-* Install the packages to the menuconfig interface and mark them to be compiled as modules:
+* Install the packages to the menuconfig interface:
 
-<code>./scripts/feeds install -a -p seafile -d m</code>
+<code>./scripts/feeds install -a -p seafile</code>
 
-* Start compiling the packages:
+* Run <code>make menuconfig</code> and select the package <code>Networking -> seafile-server</code> to compile as a module ('M' marker). This will also make all the required dependencies to be packaged. Exit and save the configuration.
 
-<code>make package/seafile-server/{clean,compile} V=s</code>
+* Finally, start compiling the packages:
 
-* Once done, you'll find the packages generated in './bin/[platform]/packages/seafile' ready to be installed on your router.
+<code>make package/seafile-server/{clean,compile}</code>
 
-NOTE: you'll need to copy the packages to a directory accessible by your router and also, need to generate package index.
+* Once done, you'll find the packages in './bin/<platform>/packages/seafile' ready to be installed on your router.
 
-To make opkg aware of your custom package repository, set the line in /etc/opkg.conf (replace '/mnt/packages/seafile' with the directory containing the packages):
+Installation
+------------
+
+To install or update the packages, you need to copy the package files to a directory accessible by your router along with a package index file. To do so, copy the script 'deploy-to-router.sh' to the directory holding the generated packages and set your router's IP address along with the local path on the router that should hold the repository's files (scp parameters). Once done, run the script to have the files copied to the router.
+
+To make opkg aware of your custom package repository, append the lines below to /etc/opkg.conf on your router (change paths as appropriate):
+
+<code>dest ext /mnt/extroot</code>
 
 <code>src/gz seafile file:///mnt/packages/seafile</code>
 
-* Should you want to install the packages to an external location other than the / [root] directory, issue the following commands on your router (substitute '-d ext' with the name of the root directory of your choice and set IPKG_INSTROOT to the destination directory):
+If you want to install the packages to an external location other than the / [root] directory, issue the following commands on your router (set the value of IPKG_INSTROOT to the destination directory):
 
-<code>opkg install libfuse shadow-useradd bash libncurses sudo procps-pkill
+<code>opkg install libfuse shadow-useradd bash libncurses sudo procps-pkill</code>
+
 <code>IPKG_INSTROOT=/mnt/extroot opkg -d ext install seafile-server</code>
 
 Known bugs
