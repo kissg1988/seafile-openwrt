@@ -66,9 +66,9 @@ If you want to install the packages to an external location other than the / [ro
 
 <code>IPKG_INSTROOT=/mnt/extroot opkg -d ext install seafile-server</code>
 
-Known bugs
-----------
+Known issues
+------------
 
-* The jansson package needs to be patched (included) as the current version does not install the .pc file (pkg-config) by default
-* The fileserver daemon cannot accept file uploads, CORS is not working as expected (400 Bad request returned instead of 200 OK, needs debugging)
+* The fileserver daemon cannot accept file uploads, CORS is not working as expected (400 Bad request returned instead of 200 OK), this needs debugging
 * Building the packages with "make -j" sometimes fails, rebuilding without the "-j" switch solves the problem
+* Seahub is pretty slow - some additional optimization possible, maybe?
