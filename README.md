@@ -49,7 +49,7 @@ How to use
 
 <code>./scripts/feeds install -a -p seafile</code>
 
-* Run <code>make menuconfig</code> and select <code>Networking -> seafile-server</code> to be built as a package ('M' marker). This will also make all the required dependencies compiled.
+* Run <code>make menuconfig</code> and select <code>Network -> seafile-server</code> to be built as a package ('M' marker). This will also make all the required dependencies compiled.
 
 * Finally, start the packaging process:
 
