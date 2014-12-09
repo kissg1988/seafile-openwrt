@@ -30,7 +30,8 @@ define Package/seafile-server
     URL:=http://seafile.com/
     DEPENDS:=+shadow-useradd +libarchive +libopenssl +glib2 +seafile-ccnet +libsearpc \
 		+jansson +libevent2 +libevent2-openssl +zlib +libzdb +libsqlite3 \
-		+libpthread +libuuid +seafile-seahub +bash +sudo +procps +procps-pkill +libevhtp
+		+libpthread +libuuid +seafile-seahub +bash +sudo +libevhtp \
+		+!CONFIG_BUSYBOX_DEFAULT_PKILL:procps-pkill
 endef
 
 define Package/seafile-server/description
