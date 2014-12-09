@@ -55,7 +55,7 @@ How to use
 
 <code>make package/seafile-server/{clean,compile}</code>
 
-* Once done, you'll find the packages in './bin/<platform>/packages/seafile' ready to be installed on your router.
+* Once done, you'll find the packages in './bin/(platform)/packages/seafile' ready to be installed on your router.
 
 Installation
 ------------
