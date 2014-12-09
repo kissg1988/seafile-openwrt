@@ -27,7 +27,7 @@ How to use
 ----------
 
 * Checkout all the files from here to a directory of your choice
-* Checkout and initialize the buildroot of the Barrier Breaker branch of OpenWRT as per the instructions on the <a href="http://wiki.openwrt.org/doc/howto/build">OpenWrt Buildroot – Usage</a> page. Use <a href="git://git.openwrt.org/14.07/openwrt.git">this link</a> to fetch the appropriate buildroot from Git.
+* Checkout and initialize the buildroot of the Barrier Breaker branch of OpenWRT as per the instructions on the <a href="http://wiki.openwrt.org/doc/howto/build">OpenWrt Buildroot – Usage</a> page. Use the link "git://git.openwrt.org/14.07/openwrt.git" to fetch the appropriate buildroot from Git.
 * Within OpenWRT's buildroot, open the file feeds.conf.default in an editor
 * Append the line to the file:
 
