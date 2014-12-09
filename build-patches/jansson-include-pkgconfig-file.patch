@@ -1,0 +1,13 @@
+diff -rupN jansson.orig/Makefile jansson/Makefile
+--- jansson.orig/Makefile	2014-12-08 02:30:19.000000000 +0100
++++ jansson/Makefile	2014-12-09 10:15:33.000892538 +0100
+@@ -31,7 +31,9 @@ TARGET_CFLAGS += $(FPIC)
+ 
+ define Build/InstallDev
+ 	$(INSTALL_DIR) $(1)/usr/{lib,include}
++	$(INSTALL_DIR) $(1)/usr/lib/pkgconfig
+ 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libjansson* $(1)/usr/lib
++	$(CP) $(PKG_INSTALL_DIR)/usr/lib/pkgconfig/* $(1)/usr/lib/pkgconfig
+ 	$(CP) $(PKG_INSTALL_DIR)/usr/include/* $(1)/usr/include/
+ endef
+ 
