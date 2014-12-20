@@ -4,7 +4,7 @@ What's this?
 
 This is a port of <a href="http://seafile.com/">Seafile</a> to <a href="http://openwrt.org/">OpenWRT</a>'s current stable release (Barrier Breaker).
 
-NOTE: Packages in this repository are for Barrier Breaker only. Package sources to be used with the development branch are currently <a href="https://github.com/kissg1988/packages">in a fork</a> until they get pulled into master. 
+NOTE: Packages in this repository are for Barrier Breaker only. Package definitions to be used with the development branch are now merged to Openwrt's official <a href="https://github.com/openwrt/packages">packages repository</a>.
 
 Why was it created?
 -------------------
