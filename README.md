@@ -6,6 +6,8 @@ This is a port of <a href="http://seafile.com/">Seafile</a> to <a href="http://o
 
 NOTE: Packages in this repository are for Barrier Breaker only. Package definitions to be used with the development branch are now merged to Openwrt's official <a href="https://github.com/openwrt/packages">packages repository</a>.
 
+<strong>WARNING:</strong> Packages here are not regularly updated. Sorry guys, I don't have the time to keep stuffs  here updated along with the version merged to the development branch. If you want to use the latest version of Seafile, please consider installing a <a href="https://downloads.openwrt.org/snapshots/trunk/">snapshot image</a> of Openwrt on your device. That way, you can have Seafile up and running as simple as running the command "opkg update && opkg install seafile-server" from a root shell.
+
 Why was it created?
 -------------------
 
