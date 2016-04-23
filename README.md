@@ -2,7 +2,7 @@
 What's this?
 ------------
 
-This is a port of <a href="http://seafile.com/">Seafile</a> to <a href="http://openwrt.org/">OpenWRT</a>'s current stable release (Barrier Breaker).
+This is a port of <a href="http://seafile.com/">Seafile</a> to <a href="http://openwrt.org/">OpenWRT</a> release 14.07 (Barrier Breaker). Creating a port of Seafile 5.1 for the latest version of openwrt is a work-in-progress.
 
 NOTE: Packages in this repository are for Barrier Breaker only. Package definitions to be used with the development branch are now merged to Openwrt's official <a href="https://github.com/openwrt/packages">packages repository</a>.
 
